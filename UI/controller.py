@@ -1,3 +1,5 @@
+import datetime
+
 import flet as ft
 
 
@@ -8,10 +10,24 @@ class Controller:
         # the model, which implements the logic of the program and holds the data
         self._model = model
 
-    def handle_hello(self, e):
-        name = self._view.txt_name.value
-        if name is None or name == "":
-            self._view.create_alert("Inserire il nome")
-            return
-        self._view.txt_result.controls.append(ft.Text(f"Hello, {name}!"))
-        self._view.update_page()
+    def handleCreaGrafo(self, e):
+        pass
+
+    def handleBestProdotti(self,e):
+        pass
+
+    def handleCercaCammino(self):
+        pass
+
+
+
+    def setDates(self):
+        first, last = self._model.getDateRange()
+
+        self._view._dp1.first_date = datetime.date(first.year, first.month, first.day)
+        self._view._dp1.last_date = datetime.date(last.year, last.month, last.day)
+        self._view._dp1.current_date = datetime.date(first.year, first.month, first.day)
+
+        self._view._dp2.first_date = datetime.date(first.year, first.month, first.day)
+        self._view._dp2.last_date = datetime.date(last.year, last.month, last.day)
+        self._view._dp2.current_date = datetime.date(last.year, last.month, last.day)
