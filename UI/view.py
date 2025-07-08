@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import flet as ft
 
 
@@ -6,9 +8,11 @@ class View(ft.UserControl):
         super().__init__()
         # page stuff
         self._page = page
-        self._page.title = "Template application using MVC and DAO"
+        self._page.title = "Esame del 10/07/2025 - Turno A"
         self._page.horizontal_alignment = 'CENTER'
-        self._page.theme_mode = ft.ThemeMode.DARK
+        self._page.theme_mode = ft.ThemeMode.LIGHT
+        self._page.bgcolor = "#ebf4f4"
+        self._page.window_height = 800
         # controller (it is not initialized. Must be initialized in the main, after the controller is created)
         self._controller = None
         # graphical elements
@@ -20,25 +24,47 @@ class View(ft.UserControl):
 
     def load_interface(self):
         # title
-        self._title = ft.Text("Hello World", color="blue", size=24)
+        self._title = ft.Text("Esame del 10/07/2025 - Turno A", color="green", size=24)
         self._page.controls.append(self._title)
 
-        #ROW with some controls
-        # text field for the name
-        self.txt_name = ft.TextField(
-            label="name",
-            width=200,
-            hint_text="Insert a your name"
+        self._ddcategory = ft.Dropdown(label="Category")
+
+        self._dp1 = ft.DatePicker(
+            on_change=lambda e: print(f"Giorno selezionato: {self._dp1.value}"),
+            on_dismiss=lambda e: print("Data non selezionata")
         )
 
-        # button for the "hello" reply
-        self.btn_hello = ft.ElevatedButton(text="Hello", on_click=self._controller.handle_hello)
-        row1 = ft.Row([self.txt_name, self.btn_hello],
+        self._page.overlay.append(self._dp1)
+        self._btnCal1 = ft.ElevatedButton("Start date",
+                                              icon=ft.icons.CALENDAR_MONTH,
+                                              on_click=lambda _: self._dp1.pick_date())
+
+        self._dp2 = ft.DatePicker(
+            on_change=lambda e: print(f"Giorno selezionato: {self._dp2.value}"),
+            on_dismiss=lambda e: print("Data non selezionata")
+        )
+        self._page.overlay.append(self._dp2)
+        self._btnCal2 = ft.ElevatedButton("End date",
+                                              icon=ft.icons.CALENDAR_MONTH,
+                                              on_click=lambda _: self._dp2.pick_date())
+
+        self._controller.setDates()
+
+        self._btnCreaGrafo = ft.ElevatedButton(text="Crea Grafo", on_click=self._controller.handleCreaGrafo)
+
+        row1 = ft.Row([self._ddcategory, self._btnCal1, self._btnCal2, self._btnCreaGrafo],
                       alignment=ft.MainAxisAlignment.CENTER)
         self._page.controls.append(row1)
 
-        # List View where the reply is printed
-        self.txt_result = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=True)
+        self._btnBestProdotti = ft.ElevatedButton(text="Prodotti più venduti",
+                                           on_click=self._controller.handleBestProdotti)
+        self._btnCercaCammino = ft.ElevatedButton(text="Cerca cammino",
+                                                  on_click=self._controller.handleCercaCammino)
+
+        row2=ft.Row([self._btnBestProdotti, self._btnCercaCammino], alignment=ft.MainAxisAlignment.CENTER)
+        self._page.controls.append(row2)
+
+        self.txt_result = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=False)
         self._page.controls.append(self.txt_result)
         self._page.update()
 
