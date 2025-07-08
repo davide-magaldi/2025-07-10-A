@@ -1,8 +1,5 @@
 from database.DB_connect import DBConnect
 
-from model.product import Product
-from model.category import Category
-
 
 class DAO():
     def __init__(self):

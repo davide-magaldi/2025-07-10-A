@@ -13,10 +13,10 @@ class Controller:
     def handleCreaGrafo(self, e):
         pass
 
-    def handleBestProdotti(self,e):
+    def handleBestProdotti(self, e):
         pass
 
-    def handleCercaCammino(self):
+    def handleCercaCammino(self, e):
         pass
 
 

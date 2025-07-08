@@ -12,7 +12,8 @@ class View(ft.UserControl):
         self._page.horizontal_alignment = 'CENTER'
         self._page.theme_mode = ft.ThemeMode.LIGHT
         self._page.bgcolor = "#ebf4f4"
-        self._page.window_height = 800
+        self._page.window_height = 600
+        self._page.window_width = 1000
         # controller (it is not initialized. Must be initialized in the main, after the controller is created)
         self._controller = None
         # graphical elements
@@ -27,7 +28,7 @@ class View(ft.UserControl):
         self._title = ft.Text("Esame del 10/07/2025 - Turno A", color="green", size=24)
         self._page.controls.append(self._title)
 
-        self._ddcategory = ft.Dropdown(label="Category")
+        self._ddcategory = ft.Dropdown(label="Category", width=200)
 
         self._dp1 = ft.DatePicker(
             on_change=lambda e: print(f"Giorno selezionato: {self._dp1.value}"),
@@ -52,16 +53,22 @@ class View(ft.UserControl):
 
         self._btnCreaGrafo = ft.ElevatedButton(text="Crea Grafo", on_click=self._controller.handleCreaGrafo)
 
-        row1 = ft.Row([self._ddcategory, self._btnCal1, self._btnCal2, self._btnCreaGrafo],
+        self._btnBestProdotti = ft.ElevatedButton(text="Prodotti più venduti",
+                                           on_click=self._controller.handleBestProdotti)
+
+        row1 = ft.Row([self._ddcategory, self._btnCal1, self._btnCal2, self._btnCreaGrafo, self._btnBestProdotti],
                       alignment=ft.MainAxisAlignment.CENTER)
         self._page.controls.append(row1)
 
-        self._btnBestProdotti = ft.ElevatedButton(text="Prodotti più venduti",
-                                           on_click=self._controller.handleBestProdotti)
-        self._btnCercaCammino = ft.ElevatedButton(text="Cerca cammino",
-                                                  on_click=self._controller.handleCercaCammino)
+        self._txtInLun = ft.TextField(label="Lunghezza cammino", width=120)
+        self._ddProdStart = ft.Dropdown(label="Start product", width=350)
+        self._ddProdEnd = ft.Dropdown(label="End product", width=350)
 
-        row2=ft.Row([self._btnBestProdotti, self._btnCercaCammino], alignment=ft.MainAxisAlignment.CENTER)
+        self._btnCercaCammino = ft.ElevatedButton(text="Cerca ",
+                                                  on_click=self._controller.handleCercaCammino, width=120)
+
+        row2 = ft.Row([self._txtInLun, self._ddProdStart, self._ddProdEnd, self._btnCercaCammino],
+                      alignment=ft.MainAxisAlignment.CENTER)
         self._page.controls.append(row2)
 
         self.txt_result = ft.ListView(expand=1, spacing=10, padding=20, auto_scroll=False)
